@@ -1,0 +1,31 @@
+    
+  
+Cable Network EgyptHome MQS History LOG OFF 
+From Date    ** 
+To Date    ** 
+SmartCard  Error 
+
+Status  All Done Manual Done Waiting Pending Rejected  
+     
+
+
+
+SmartCard Product Date Time Event Period Amount Status Receipt Branch Notes 
+10110599411 beIN Top Sports 05/07/2017 20:06:07 Renewal 12 1140 Done 5368960 EDD HELIOPOLIS 02   
+10110599411 beIN Top Sports 02/01/2017 13:22:06 New Product 0 0 Done 4959169 EDD HELIOPOLIS 02   
+10110599411 beIN Top Sports 02/01/2017 13:23:06 Renewal 12 1130 Done 4959170 EDD HELIOPOLIS 02   
+10110599411 beIN Complete 08/10/2016 15:07:59 New Product 61 287 Done 4823900 EDD HELIOPOLIS 02   
+10110599411 beIN EURO 2016 10/06/2016 00:58:31 New Product 12 500 Done 4656339 EDD HELIOPOLIS 02   
+10110599411 beIN Full Package 10/09/2015 21:31:57 Renewal 12 1300 Done 4345741 EDD HELIOPOLIS 02   
+ 
+
+
+
+
+
+
+
+
+
+
+© Copyright 2009 Cable Network Egypt  (CNE) 

@@ -1,0 +1,614 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package javaapplication10;
+
+import java.awt.Color;
+import java.awt.Toolkit;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Vector;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.print.attribute.HashPrintRequestAttributeSet;
+import javax.print.attribute.PrintRequestAttributeSet;
+import javax.print.attribute.standard.MediaPrintableArea;
+
+/**
+ *
+ * @author bb
+ */
+public class Reports extends javax.swing.JFrame {
+
+    java.sql.Connection con = null;
+    ResultSet rs = null;
+    Statement st;
+    ResultSet rs2 = null;
+    Statement st2;
+    ResultSet rs3 = null;
+    Statement st3;
+    String path = System.getProperty("user.dir");
+    String conn = "jdbc:mysql://localhost:3306/tasberadb" + "?useUnicode=yes&characterEncoding=UTF-8";
+    ArrayList<String> companies = new ArrayList<String>();
+
+    public Reports() {
+        initComponents();
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("images/logo2.jpg")));
+        companies.add("اطلب");
+        companies.add("اوبر ايتس");
+        companies.add("كاترنج");
+        companies.add("دليفري");
+        this.getContentPane().setBackground(Color.WHITE);
+        try {
+            con = DriverManager.getConnection(conn, "root", "");
+            con.close();
+        } catch (Exception ex) {
+            System.out.println(ex.toString());
+
+            JOptionPane.showMessageDialog(null, "لم يتم الاتصال بقاعدة البيانات", "خطا", JOptionPane.INFORMATION_MESSAGE);
+            ex.printStackTrace();
+
+        }
+
+        displayAll();
+
+    }
+
+    public void displayAll() {
+        try {
+//          Class.forName("org.apache.derby.jdbc.ClientDriver");
+//          con = DriverManager.getConnection(connect + path + "\\Databases\\TasberaDB", "root", "1234");
+            con = DriverManager.getConnection(conn, "root", "");
+            st = (Statement) con.createStatement();
+            rs = st.executeQuery("SELECT COUNT(*)As TotalRows FROM ORDERS");
+            int totalRows = 0;
+            if (rs.next()) {
+                totalRows = rs.getInt("TOTALROWS");
+                rs = st.executeQuery("select * from orders");
+                DefaultTableModel model = (DefaultTableModel) this.jTable1.getModel();
+                model.setRowCount(0);
+                Vector row[] = new Vector[totalRows];
+                int i = 0;
+                while (rs.next()) {
+                    row[i] = new Vector();
+                    double itemPrice = rs.getDouble("ItemPrice");
+                    int itemQuantity = rs.getInt("ItemQuantity");
+                    double totalPrice = rs.getDouble("OrderTotal");
+                    row[i].add(totalPrice);
+                    row[i].add(rs.getDouble("DISCOUNT"));
+                    row[i].add(itemQuantity);
+                    row[i].add(itemPrice);
+                    row[i].add(rs.getString("ItemName"));
+                    row[i].add(rs.getDate("DATE"));
+                    row[i].add(rs.getString("ClientPhone"));
+                    row[i].add(rs.getString("ClientAddress"));
+                    row[i].add(rs.getString("ClientName"));
+                    row[i].add(rs.getString("ORDERTYPE"));
+                    row[i].add(rs.getDouble("ID"));
+                    model.addRow(row[i]);
+                    i++;
+                }
+                DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+                centerRenderer.setHorizontalAlignment(JLabel.RIGHT);
+
+                this.jTable1.setDefaultRenderer(String.class, centerRenderer);
+
+                this.jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+                    public void mouseClicked(java.awt.event.MouseEvent e) {
+                        int row = jTable1.rowAtPoint(e.getPoint());
+                        int col = jTable1.columnAtPoint(e.getPoint());
+                        if (col == 0) {
+
+                        } else if (col == 1) {
+
+                        }
+                    }
+                });
+                con.close();
+
+            }
+        } catch (Exception ex) {
+            System.out.print(ex.toString());
+            JOptionPane.showMessageDialog(null, "خطا في احضار البيانات", "خطا", JOptionPane.INFORMATION_MESSAGE);
+
+        }
+
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jLabel1 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTextPane2 = new javax.swing.JTextPane();
+        jButton5 = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        jButton4 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jComboBox3 = new javax.swing.JComboBox();
+        jComboBox1 = new javax.swing.JComboBox();
+        jComboBox2 = new javax.swing.JComboBox();
+        jComboBox4 = new javax.swing.JComboBox();
+        jComboBox5 = new javax.swing.JComboBox();
+        jComboBox6 = new javax.swing.JComboBox();
+        jButton6 = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jPanel2 = new javax.swing.JPanel();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 255, 255));
+        setMaximumSize(new java.awt.Dimension(1000, 700));
+        setMinimumSize(new java.awt.Dimension(1000, 700));
+        setPreferredSize(new java.awt.Dimension(1000, 700));
+        getContentPane().setLayout(null);
+
+        jLabel1.setFont(new java.awt.Font("PT Bold Heading", 0, 30)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(251, 240, 2));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("التقارير");
+        getContentPane().add(jLabel1);
+        jLabel1.setBounds(400, 5, 180, 31);
+
+        jButton2.setForeground(new java.awt.Color(59, 24, 2));
+        jButton2.setText("عودة إلي القائمة الرئيسية");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton2);
+        jButton2.setBounds(437, 590, 151, 40);
+
+        jTextPane2.setFont(new java.awt.Font("Tahoma", 0, 8)); // NOI18N
+        jScrollPane4.setViewportView(jTextPane2);
+
+        getContentPane().add(jScrollPane4);
+        jScrollPane4.setBounds(30, 330, 327, 247);
+
+        jButton5.setForeground(new java.awt.Color(59, 24, 2));
+        jButton5.setText("طباعة الطلب");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton5);
+        jButton5.setBounds(142, 590, 91, 39);
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(" "));
+        jPanel1.setLayout(null);
+
+        jButton4.setForeground(new java.awt.Color(59, 24, 2));
+        jButton4.setText("تقرير يوم");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton4);
+        jButton4.setBounds(163, 270, 100, 23);
+
+        jLabel2.setText("إلي");
+        jPanel1.add(jLabel2);
+        jLabel2.setBounds(64, 20, 20, 14);
+
+        jLabel3.setText("الشهر:");
+        jPanel1.add(jLabel3);
+        jLabel3.setBounds(240, 130, 50, 14);
+
+        jLabel4.setText("السنة:");
+        jPanel1.add(jLabel4);
+        jLabel4.setBounds(242, 202, 51, 14);
+
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "2016", "2017", "2018", "2019", "2020", "2021", "2022" }));
+        jPanel1.add(jComboBox3);
+        jComboBox3.setBounds(170, 200, 60, 20);
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" }));
+        jPanel1.add(jComboBox1);
+        jComboBox1.setBounds(170, 60, 50, 20);
+
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" }));
+        jPanel1.add(jComboBox2);
+        jComboBox2.setBounds(170, 130, 50, 20);
+
+        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" }));
+        jPanel1.add(jComboBox4);
+        jComboBox4.setBounds(50, 60, 50, 20);
+
+        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" }));
+        jPanel1.add(jComboBox5);
+        jComboBox5.setBounds(50, 130, 50, 20);
+
+        jComboBox6.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "2016", "2017", "2018", "2019", "2020", "2021", "2022" }));
+        jPanel1.add(jComboBox6);
+        jComboBox6.setBounds(40, 200, 70, 20);
+
+        jButton6.setForeground(new java.awt.Color(59, 24, 2));
+        jButton6.setText("تقرير المدة");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton6);
+        jButton6.setBounds(30, 270, 100, 23);
+
+        jLabel5.setText("اليوم:");
+        jPanel1.add(jLabel5);
+        jLabel5.setBounds(240, 60, 58, 14);
+
+        jLabel6.setText("من");
+        jPanel1.add(jLabel6);
+        jLabel6.setBounds(200, 20, 14, 14);
+
+        getContentPane().add(jPanel1);
+        jPanel1.setBounds(660, 330, 310, 310);
+
+        jTable1.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "الإجمالي", "خضم", "عدد الصنف", "ثمن الصنف", "الصنف", "التاريخ", "تليفون العميل", "عنوان العميل", "اسم العميل", "عنوان الطلب", "رقم الطلب"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jTable1.setMinimumSize(new java.awt.Dimension(400, 0));
+        jTable1.setRowHeight(20);
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jTable1);
+
+        getContentPane().add(jScrollPane1);
+        jScrollPane1.setBounds(10, 50, 960, 260);
+
+        jPanel2.setBackground(new java.awt.Color(101, 23, 13));
+        getContentPane().add(jPanel2);
+        jPanel2.setBounds(0, 0, 1000, 700);
+
+        pack();
+        setLocationRelativeTo(null);
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        Main m = new Main();
+        m.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jButton2ActionPerformed
+    public void generateReport(String query, String fromDate, String toDate) {
+        try {
+
+            String htmlTxt = "";
+            String url2 = "file:///C:\\Users\\Me\\Desktop\\logo2.jpg";
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm:ss a");
+            if (toDate.equals("")) {
+                toDate = "Daily Report";
+            }
+            htmlTxt += "<html>"
+                    + "<head>"
+                    + "<style>"
+                    + "table{width:100%; font-size:8px;}"
+                    + ".head{border-bottom:1px solid black;}"
+                    + ".arabicTable{border-style:none;}"
+                    + "#middleText{text-align:center;}"
+                    + "#total{font-size:10px; border-top:1px solid black;}"
+                    + "#footer{font-size:7px; text-align:center; margin-bottom:0px; margin-top:5px;}"
+                    + "#firstArabicColumn{width:40px;border-left:1px solid black;}"
+                    + "#firstEnglishColumn{width:30px;border-right:1px solid black; text-align:left;}"
+                    + "#secondEnglishColumn{width:70px;text-align:left;}"
+                    + "#englishColumn{text-align:left;}"
+                    + "#companyName{text-align:center; font-size:10px; border:1px solid black; }"
+                    + "th, tr{text-align:right;};"
+                    + "</style></head>"
+                    + "<body> "
+                    + "<div style=\"text-align:center; margin-bottom:5px; margin-top:0px;\"><img src=\"" 
+                    + this.getClass().getClassLoader().getResource("images/logo2.jpg").toString()+ "\"/></div>"
+                    + "<table>"
+                    + "<tr > <td id='firstEnglishColumn'>Date#</td>"
+                    + "<td id='secondEnglishColumn'>" + fromDate + "</td>"
+                    + "<td id='englishColumn'>" + toDate + "</td></tr>"
+                    + "</table>"
+                    + "<table>";
+
+            double overAllTotal = 0;
+            for (int j = 0; j < companies.size(); j++) {
+                st2 = (Statement) con.createStatement();
+                rs2 = st2.executeQuery(query + "AND ORDERTYPE='" + companies.get(j) + "'");
+                if (rs2.next()) {
+                    htmlTxt += "<tr>"
+                            + "<th colspan='3'  id='companyName'>" + companies.get(j) + "</th>"
+                            + "</tr>"
+                            + "<tr class='head'> <th>" + "السعر" + "</th>"
+                            + "<th id='middleText'>" + "الكمية" + "</th>"
+                            + "<th>" + "الصنف" + "</th> </tr>";
+                    ArrayList<String> sandwiches = new ArrayList<String>();
+                    ArrayList<Integer> quantities = new ArrayList<Integer>();
+                    ArrayList<Double> prices = new ArrayList<Double>();
+                    double currentCompanyTotal = 0;
+                    st3 = (Statement) con.createStatement();
+                    rs3 = st3.executeQuery(query + " AND ORDERTYPE='" + companies.get(j) + "'");
+                    while (rs3.next()) {
+                        String currentItem = rs3.getString("ITEMNAME");
+                        int currentQuantity = rs3.getInt("ITEMQUANTITY");
+                        double currentPrice = rs3.getDouble("ORDERTOTAL");
+                        boolean exist = false;
+                        for (int k = 0; k < sandwiches.size(); k++) {
+                            if (currentItem.equals(sandwiches.get(k))) {
+                                exist = true;
+                                int totalQuantity = quantities.get(k) + currentQuantity;
+                                quantities.set(k, totalQuantity);
+                                double oldPrice = prices.get(k);
+                                prices.set(k, oldPrice+currentPrice);
+                                break;
+
+                            }
+                        }
+                        if (!exist) {
+                        System.out.println("HERE!");
+                            sandwiches.add(currentItem);
+                            quantities.add(currentQuantity);
+                            prices.add(currentPrice);
+
+                        }
+                    }
+                    if (sandwiches.size() > 0) {
+                        for (int z = 0; z < sandwiches.size(); z++) {
+                            overAllTotal += prices.get(z);
+                            currentCompanyTotal += prices.get(z);
+                            htmlTxt += "<tr>"
+                                    + "<td>" + prices.get(z) + "</td>"
+                                    + "<td id='middleText'>" + quantities.get(z) + "</td>"
+                                    + "<td>" + sandwiches.get(z) + "</td>"
+                                    + "</tr>";
+                        }
+
+                        htmlTxt += "<tr id='total'>"
+                                + "<td>" + currentCompanyTotal + "</td>"
+                                + "<td></td>";
+                        if (companies.get(j).equals("UberEats") || companies.get(j).equals("Otlob")) {
+                            htmlTxt += "<td>" + companies.get(j) + " " + " إجمالي</td>";
+
+                        } else {
+                            htmlTxt += "<td> إجمالي" + " " + companies.get(j) + "</td>";
+
+                        }
+                        htmlTxt += "</tr>";
+
+                    }
+                }
+            }
+
+            htmlTxt += "<tr id='total'>"
+                    + "<td>" + overAllTotal + "</td>"
+                    + "<td></td>"
+                    + "<td> الإجمالي</td>"
+                    + "</tr>"
+                    + "</table>"
+                    + "</body> </html>";
+            con.close();
+            this.jTextPane2.setContentType("text/html");
+
+            //this.jTextPane2.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+            this.jTextPane2.setText(htmlTxt);
+            JOptionPane.showMessageDialog(null, "تم اضافة في التقرير", "نجاح", JOptionPane.INFORMATION_MESSAGE);
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "خطا في التقرير", "خطا", JOptionPane.INFORMATION_MESSAGE);
+            System.out.println(ex.toString());
+        }
+
+    }
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        String day = this.jComboBox1.getSelectedItem().toString();
+        String month = this.jComboBox2.getSelectedItem().toString();
+        String year = this.jComboBox3.getSelectedItem().toString();
+        String address = "";
+        if (day.equals("") || month.equals("") || year.equals("")) {
+            JOptionPane.showMessageDialog(null, "يجب ادخال التاريخ", "خطا", JOptionPane.INFORMATION_MESSAGE);
+
+        } else {
+            try {
+                int day2 = Integer.parseInt(day);
+                int month2 = Integer.parseInt(month);
+                int year2 = Integer.parseInt(year);
+                String searchDate = year + "-" + month + "-" + day;
+                String fromDate = day + "/" + month + "/" + year;
+                //          Class.forName("org.apache.derby.jdbc.ClientDriver");
+                //          con = DriverManager.getConnection(connect + path + "\\Databases\\TasberaDB", "root", "1234");
+                con = DriverManager.getConnection(conn, "root", "");
+                st = (Statement) con.createStatement();
+                String query = "SELECT * FROM ORDERS WHERE DATE='" + searchDate + "'";
+                rs = st.executeQuery(query);
+                if (rs.next()) {
+                    generateReport(query, fromDate, "");
+                } else {
+                    JOptionPane.showMessageDialog(null, "لا يوجد اوردرات بهذا التاريخ او خطا بالتاريخ", "خطا", JOptionPane.INFORMATION_MESSAGE);
+                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "يوجد خطا بالتاريخ", "خطا", JOptionPane.INFORMATION_MESSAGE);
+
+            }
+
+        }
+
+
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        try {
+            PrintRequestAttributeSet attr_set = new HashPrintRequestAttributeSet();
+            attr_set.add(new MediaPrintableArea(0.1f, 0.1f, 100, 100, MediaPrintableArea.MM));
+
+            this.jTextPane2.print(null, null, false, null, attr_set, rootPaneCheckingEnabled);
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "خطا في الطباعة", "خطا", JOptionPane.INFORMATION_MESSAGE);
+
+        }
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        String day = this.jComboBox1.getSelectedItem().toString();
+        String month = this.jComboBox2.getSelectedItem().toString();
+        String year = this.jComboBox3.getSelectedItem().toString();
+        String day2 = this.jComboBox4.getSelectedItem().toString();
+        String month2 = this.jComboBox5.getSelectedItem().toString();
+        String year2 = this.jComboBox6.getSelectedItem().toString();
+        String address = "";
+        if (day.equals("") || month.equals("") || year.equals("") || day2.equals("") || month2.equals("") || year2.equals("")) {
+            JOptionPane.showMessageDialog(null, "يجب ادخال التاريخ", "خطا", JOptionPane.INFORMATION_MESSAGE);
+
+        } else {
+            try {
+                int day3 = Integer.parseInt(day);
+                int month3 = Integer.parseInt(month);
+                int year3 = Integer.parseInt(year);
+                int day4 = Integer.parseInt(day2);
+                int month4 = Integer.parseInt(month2);
+                int year4 = Integer.parseInt(year2);
+                String fromDate = year + "-" + month + "-" + day;
+                String fromDate2 = day + "/" + month + "/" + year;
+                String toDate = year2 + "-" + month2 + "-" + day2;
+                String toDate2 = day2 + "/" + month2 + "/" + year2;
+                //          Class.forName("org.apache.derby.jdbc.ClientDriver");
+                //          con = DriverManager.getConnection(connect + path + "\\Databases\\TasberaDB", "root", "1234");
+                con = DriverManager.getConnection(conn, "root", "");
+                st = (Statement) con.createStatement();
+                String query = "SELECT * FROM ORDERS WHERE DATE>='" + fromDate + "' AND DATE<='" + toDate + "'";
+                rs = st.executeQuery(query);
+                if (rs.next()) {
+                    generateReport(query, fromDate2, toDate2);
+                } else {
+                    JOptionPane.showMessageDialog(null, "لا يوجد اوردرات بهذا التاريخ او خطا بالتاريخ", "خطا", JOptionPane.INFORMATION_MESSAGE);
+                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "يوجد خطا بالتاريخ", "خطا", JOptionPane.INFORMATION_MESSAGE);
+
+            }
+
+        }
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(Reports.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Reports.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Reports.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Reports.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Reports().setVisible(true);
+
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JComboBox jComboBox2;
+    private javax.swing.JComboBox jComboBox3;
+    private javax.swing.JComboBox jComboBox4;
+    private javax.swing.JComboBox jComboBox5;
+    private javax.swing.JComboBox jComboBox6;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTextPane jTextPane2;
+    // End of variables declaration//GEN-END:variables
+}

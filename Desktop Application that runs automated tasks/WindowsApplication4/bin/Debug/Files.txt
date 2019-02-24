@@ -1,0 +1,5 @@
+﻿C:\Users\bb\Desktop\Kafafy's New System\Stock.xlsx
+C:\Users\bb\Desktop\Kafafy's New System\Stock.xlsx
+C:\Users\bb\Desktop\Kafafy's New System\Cash.xlsx
+C:\Users\bb\Desktop\Kafafy's New System\Credit.xlsx
+C:\Users\bb\Desktop\Kafafy's New System\TransMonitor.xlsx
